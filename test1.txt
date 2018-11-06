@@ -1,0 +1,17 @@
+(const)Set <a=1,halil,altay,2;
+
+Set <b=1,3,4,ensar;
+
+if(<a(!=)<b){Set <c=<a+<b;}else{Set <d=<a^<b;}
+
+Set func substraction(Set <e;Set <s){Set <g=<e-<f;return(<g);};
+
+Set func cartesian(Set <h;Set <x){Set <j=<h*<x;return(<j);};
+
+Set func complement(Set <k;Set <l){Set <v=<k'<l;return(<v);};
+
+Set <z=func subst(<a,<b);
+
+write(<z);
+write(func cartesian(<a,<b));
+write(func complement(<a,<b));

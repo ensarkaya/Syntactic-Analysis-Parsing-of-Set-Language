@@ -1,0 +1,154 @@
+%{
+	#include <stdio.h>
+	int yylex(void);
+	void yyerror(char *);
+	int yylineno;
+	#define YYDEBUG 0
+%}
+%token B_COMMENT COMMENT END SUB_SET NOT_SUB_SET SUP_SET NOT_SUP_SET QUOTE ASSIGN_OP AND TRUE FALSE
+%token RETURN BREAK CONTINUE COMMA CONSTANT COMPLEMENT CARTESIAN_PRODUCT
+%token IF ELSE EQUALS NOT_EQUALS FUNCTION_DECLERATION FUNCTION_CALL INTERSECTION
+%token LB RB LCB RCB NOT OR WHILE SCANNER SUBSTRACTION PRINT IDENTIFIER SEMICOLON UNION INTEGER
+%token VARIABLE_DECLERATION VARIABLE CHAR DIGIT SET LIST ARRAY_DEC ARRAY
+
+%left NOT AND OR SUB_SET NOT_SUB_SET SUP_SET NOT_SUP_SET LB RB RCB LCB COMPLEMENT CARTESIAN_PRODUCT UNION INTERSECTION
+%right EQUALS ASSIGN_OP 
+%nonassoc IFX ELSE
+%start stmt_list
+%%
+
+stmt_list
+	: stmt
+	| stmt_list stmt;
+stmt
+	: if_stmt		{ printf(" Input accepted ");}
+	| while_stmt		{ printf(" Input accepted ");}
+	| assignment_stmt	{ printf(" Input accepted ");}
+	| return_stmt		{ printf(" Input accepted ");}
+	| read_stmt		{ printf(" Input accepted ");}
+	| write_stmt		{ printf(" Input accepted ");}
+	| break_stmt		{ printf(" Input accepted ");}
+	| continue_stmt		{ printf(" Input accepted ");}
+	| dec_stmt		{ printf(" Input accepted ");}
+	| call_stmt		{ printf(" Input accepted ");}
+	| comment_stmt	 	{ printf(" Input accepted ");}
+	| error			{ printf(" ");};
+
+assignment_stmt
+	: VARIABLE ASSIGN_OP expr SEMICOLON
+	| VARIABLE ASSIGN_OP elements SEMICOLON
+	| CONSTANT LB VARIABLE RB ASSIGN_OP expr SEMICOLON
+	| CONSTANT LB VARIABLE RB ASSIGN_OP elements SEMICOLON;
+if_stmt
+	: IF LB boolean_expr RB LCB stmt_list RCB %prec IFX
+	| IF LB boolean_expr RB LCB stmt_list RCB ELSE LCB stmt_list RCB;
+while_stmt
+	: WHILE LB boolean_expr RB LCB stmt_list RCB SEMICOLON;
+return_stmt
+	: RETURN LB expr RB SEMICOLON
+	| RETURN LB boolean_expr RB SEMICOLON;
+read_stmt
+	: SCANNER LB var RB SEMICOLON;
+write_stmt
+	: PRINT	LB expr RB SEMICOLON
+	| PRINT LB QUOTE element QUOTE RB SEMICOLON;
+break_stmt
+	: BREAK SEMICOLON;
+continue_stmt
+	: CONTINUE SEMICOLON;
+dec_stmt
+	: function_decleration SEMICOLON
+	| array_decleration SEMICOLON
+	| var_decleration SEMICOLON;
+call_stmt
+	: function_call SEMICOLON;
+	| array_call SEMICOLON
+	| var_call SEMICOLON;
+comment_stmt
+	: COMMENT
+	| B_COMMENT;
+expr
+	: var operator var
+	| var operator var expr_list
+	| LB expr RB 
+	| function_call
+	| variables;
+expr_list
+	: operator var
+	| expr_list operator var;
+
+boolean_expr
+	: var LB boolean_operator RB var
+	| boolean_expr LB boolean_operator RB boolean_expr
+	| TRUE
+	| FALSE;
+array_decleration
+	: ARRAY_DEC ASSIGN_OP variables;
+variables
+	: var
+	| variables COMMA var;
+var
+	: VARIABLE;
+var_decleration
+	: VARIABLE_DECLERATION ASSIGN_OP expr
+	| VARIABLE_DECLERATION ASSIGN_OP elements
+	| LB CONSTANT RB VARIABLE_DECLERATION ASSIGN_OP expr
+	| LB CONSTANT RB VARIABLE_DECLERATION ASSIGN_OP elements;
+function_decleration
+	: FUNCTION_DECLERATION LB parameters RB LCB stmt_list return_stmt RCB;
+parameters
+	: parameter
+	| parameter SEMICOLON parameter;
+parameter
+	: VARIABLE_DECLERATION;
+args_list
+	: expr
+	| args_list COMMA expr ;
+function_call
+	: FUNCTION_CALL LB args_list RB ;
+array_call
+	: ARRAY ASSIGN_OP variables;
+var_call
+	: VARIABLE SEMICOLON;
+elements
+	: element 
+	| elements COMMA element ;
+element
+	: IDENTIFIER
+	| INTEGER
+	| DIGIT
+	| CHAR;
+operator
+	: UNION
+	| INTERSECTION
+	| SUBSTRACTION
+	| CARTESIAN_PRODUCT
+	| COMPLEMENT ;
+boolean_operator
+	: AND
+	| OR
+	| NOT
+	| EQUALS
+	| SUB_SET
+	| SUP_SET
+	| NOT_EQUALS
+	| NOT_SUB_SET
+	| NOT_SUP_SET ;
+
+%%
+void yyerror(char *s){
+	printf("%d: Near line %d = %s\n", yynerrs, yylineno, s);
+}
+
+int main(void){
+	#if YYDEBUG
+		yydebug = 1;
+	#endif
+	
+	yyparse();
+    
+	if(yynerrs < 1){
+		printf("Parsing is successful\n");
+	}
+	return 0;
+}

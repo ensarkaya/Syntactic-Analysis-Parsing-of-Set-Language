@@ -1,0 +1,15 @@
+ Input accepted  L1
+ Input accepted  L2
+ Input accepted  L3
+ Input accepted  Input accepted  L4
+ Input accepted  Input accepted  L5
+ Input accepted  L6
+ Input accepted  L7
+ Input accepted  L8
+ Input accepted  L9
+ Input accepted  L10
+ Input accepted  L11
+ Input accepted  L12
+1: Near line 13 = syntax error
+       L13
+

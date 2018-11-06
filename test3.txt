@@ -1,0 +1,8 @@
+Set <a=venus,mercur,earth;
+Set <b=mars,saturn,jupiter;
+Set <c=uranus,pluton,venus;
+Set func union(Set <e;Set <d){Set <f=<e+<d;return(<f);};
+while(<a(!=)<b){if(<a(==)<c){break;}else{Set <d=func union(<a,<b);}};
+if(<a(])<b){Set <w=func union(<a,<b);}
+/*This is a comment line*/
+#This is a comment

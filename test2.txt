@@ -1,0 +1,10 @@
+Set <a=1,2,3;
+Set <b=2,3;
+(const)Set <c=ensar,islom,elif,1;
+(const)Set <d=go,went,gone;
+Set <e=<a*<b;
+Set <f=<c-<d;
+while(<a(!])<b){if(TRUE){break;}else{continue;}}
+List >a=<a,<b;
+Set func abc(Set <a){Set <h=1,2;return(<b);};
+Set <x=<a*<b;

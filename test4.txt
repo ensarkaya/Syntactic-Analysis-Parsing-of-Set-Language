@@ -1,0 +1,13 @@
+Set <aa=modern,times,charlie,chaplin,1936;
+Set <bb=the,clockwork,orange,stanley,kubrick,1971;
+if(<aa(![)<bb){write(<aa);}
+if(<aa(!])<bb){write(<bb);}
+(const)Set <cc=the,dark,knight,christopher,nolan,2008;
+Set <dd=the,godfather,francis,ford,coppola,1972;
+Set <ee=affet,muslum,gurses,2006;
+Set <ff=losing,my,religion,rem,1991;
+Set <gg=<aa*<bb'<cc-<dd+<ee*<ff;
+read(<ff);
+write("helloworld");
+write(<aa,<bb);
+this is a error line
